@@ -1,217 +1,266 @@
 1. Configuración del proyecto:
 
-Crear una carpeta para el proyecto: Elige un nombre descriptivo para la carpeta, como cub3d_proyecto.
-Inicializar el proyecto de C: Utiliza un compilador de C como gcc o clang.
-Instalar las librerías necesarias:
-Minilibx: Puedes descargarla desde su sitio web oficial o usar un gestor de paquetes como apt o brew.
-Crear los archivos fuente:
-main.c: Contendrá el código principal del juego, incluyendo la inicialización, bucle principal y funciones auxiliares.
-cub3d.h: Contendrá las declaraciones de las funciones y estructuras específicas del juego.
-2. Definición de funciones y estructuras:
+	-Crear una carpeta para el proyecto: Elige un nombre descriptivo para la carpeta, como cub3d_proyecto.
+	-Inicializar el proyecto de C: Utiliza un compilador de C como gcc o clang.
+	-Instalar las librerías necesarias:
+	-Minilibx: Puedes descargarla desde su sitio web oficial o usar un gestor de paquetes como apt o brew.
+	-Crear los archivos fuente:
+		{
+			-main.c: Contendrá el código principal del juego, incluyendo la inicialización, bucle principal. 
+			-cub3d.h: Contendrá las declaraciones de las funciones y estructuras específicas del juego.
+			-*.c: funciones auxiliares.
+		}
 
-Definir las estructuras necesarias:
-jugador: Almacena la posición, dirección y estado del jugador.
-x: Posición horizontal del jugador en el mapa (en celdas).
-y: Posición vertical del jugador en el mapa (en celdas).
-angulo: Dirección del jugador en grados (0º hacia el norte, 90º hacia el este, 180º hacia el sur, 270º hacia el oeste).
-velocidad: Velocidad de movimiento del jugador (en celdas por segundo).
-mapa: Almacena la representación del mapa en forma de matriz bidimensional.
-ancho: Ancho del mapa en celdas.
-alto: Alto del mapa en celdas.
-celdas: Matriz bidimensional de caracteres que representan el contenido del mapa:
-'0': Espacio vacío.
-'1': Pared.
-'N', 'S', 'E', 'W': Posición inicial y orientación del jugador (N: Norte, S: Sur, E: Este, W: Oeste).
-pared: Almacena información sobre una pared, como su tipo de textura y distancia.
-tipo_textura: Identificador de la textura de la pared (NO, SO, WE, EA).
-distancia: Distancia desde el punto de origen al punto de intersección con la pared.
-Declarar las funciones principales:
-inicializar_cubo3d(): Carga la librería Minilibx, crea la ventana y el buffer de imagen, inicializa las variables del jugador y carga las texturas.
-ciclo_principal(): Maneja el bucle principal del juego, procesando la entrada del usuario, actualizando la lógica del juego y renderizando la imagen.
-procesar_entrada(): Lee los eventos del teclado y el ratón para actualizar la dirección del jugador y disparar si es necesario.
-logica_del_juego(): Detecta colisiones, actualiza la posición de los enemigos y otros elementos del juego.
-renderizar(): Limpia el buffer de imagen, dibuja las paredes y sprites, y muestra la imagen final en la ventana.
-raycast(): Implementa el algoritmo Ray Casting para calcular la distancia a la pared más cercana en una dirección específica.
-dibujar_pared_columna(): Dibuja una columna de la pared en el buffer de imagen en base a la distancia calculada por raycast().
-dibujar_sprite(): Dibuja un sprite en el buffer de imagen en una posición y tamaño específicos, teniendo en cuenta la perspectiva 3D.
-(Opcional) cargar_texturas(): Lee las rutas de las texturas desde el archivo .cub y carga las imágenes utilizando Minilibx.
-(Opcional) mapeo_textura(textura, x, y, ancho, alto): Aplica la técnica de mapeo de texturas para ajustar la textura de la pared a la columna que se está dibujando.
+2. Definición de funciones y estructuras:
+		
+	-Definir las estructuras necesarias:
+		{
+			-jugador: Almacena la posición, dirección y estado del jugador.
+			-x: Posición horizontal del jugador en el mapa.
+			-y: Posición vertical del jugador en el mapa.
+			-angulo: Dirección del jugador en grados (0º hacia el norte, 90º hacia el este, 180º hacia el sur, 270º hacia el oeste).
+			-espacio: Velocidad de movimiento del jugador (en celdas por pulsación).
+		}
+	-mapa: Almacena la representación del mapa en forma de matriz bidimensional.
+		{
+			-ancho: Ancho del mapa en celdas.
+			-alto: Alto del mapa en celdas.
+			-"profundidad": Sensación de profundidad simulada desde el 2d al 3d.
+		}
+	-celdas: Matriz bidimensional de caracteres que representan el contenido del mapa:
+		{
+			-'0': Espacio vacío.
+			-'1': Pared.
+			-N', 'S', 'E', 'W': Posición inicial y orientación del jugador (N: Norte, S: Sur, E: Este, W: Oeste).
+			-pared: Almacena información sobre una pared, como su tipo de textura y distancia.
+			-tipo_textura: Identificador de la textura de la pared (NO, SO, WE, EA).
+			-distancia: Distancia desde el punto de origen al punto de intersección con la pared.
+		}
+	-Declarar las funciones principales:
+		{
+			-inicializar_cubo3d(): Carga la librería Minilibx, crea la ventana y el buffer de imagen,
+									inicializa las variables del jugador y carga las texturas.
+			-ciclo_principal(): Maneja el bucle principal del juego, procesando la entrada del usuario,
+								actualizando la lógica del juego y renderizando la imagen.
+			-procesar_entrada(): Lee los eventos del teclado y el ratón para actualizar la dirección del jugador y disparar si es necesario.
+			-logica_del_juego(): Detecta colisiones, actualiza la posición de los enemigos y otros elementos del juego.
+			-renderizar(): Limpia el buffer de imagen, dibuja las paredes y sprites, y muestra la imagen final en la ventana.
+			-raycast(): Implementa el algoritmo Ray Casting para calcular la distancia a la pared más cercana en una dirección específica.
+			-dibujar_pared_columna(): Dibuja una columna de la pared en el buffer de imagen en base a la distancia calculada por raycast().
+			-dibujar_sprite(): Dibuja un sprite en el buffer de imagen en una posición y tamaño específicos,
+								teniendo en cuenta la perspectiva 3D.
+			-(Opcional) cargar_texturas(): Lee las rutas de las texturas desde el archivo .cub y carga las imágenes utilizando Minilibx.
+			-(Opcional) mapeo_textura(textura, x, y, ancho, alto): Aplica la técnica de mapeo de texturas para ajustar la textura de la pared 
+																	a la columna que se está dibujando.
+		}
 3. Implementación de las funciones:
 
-3.1 inicializar_cubo3d():
-Explicación:
+	3.1 inicializar_cubo3d():
+		-Explicación:
+			{
+				Esta función se encarga de la inicialización completa del juego, incluyendo la carga de la librería Minilibx, 
+				la creación de la ventana y el buffer de imagen, la lectura del archivo .cub para obtener la información del mapa, 
+				las texturas y los colores, la carga de las texturas, 
+				la inicialización de las variables del jugador y la inicialización de los enemigos (si se implementan).
+			}
+		-Código:
+			{
+				void inicializar_cubo3d(void) 
+				{
+    				// Cargar librería Minilibx
+    				void *mlx = mlx_init();
+   						if (!mlx) 
+						{
+        					fprintf(stderr, "Error al inicializar Minilibx\n");
+        					exit(1);
+    					}
 
-Esta función se encarga de la inicialización completa del juego, incluyendo la carga de la librería Minilibx, la creación de la ventana y el buffer de imagen, la lectura del archivo .cub para obtener la información del mapa, las texturas y los colores, la carga de las texturas, la inicialización de las variables del jugador y la inicialización de los enemigos (si se implementan).
+    				// Crear ventana
+    				void *mlx_ptr = mlx_create_window(mlx, ANCHO_PANTALLA, ALTO_PANTALLA, "cub3D");
+    					if (!mlx_ptr)
+						{
+        					fprintf(stderr, "Error al crear la ventana\n");
+        					mlx_destroy(mlx);
+        					exit(1);
+    					}
 
-Código:
+    				// Crear buffer de imagen
+    				unsigned int *buffer = mlx_get_data_addr(mlx_ptr, &ancho_buffer, &alto_buffer, &bits_per_pixel);
+    					if (!buffer)
+						{
+        					fprintf(stderr, "Error al crear el buffer de imagen\n");
+        					mlx_destroy_window(mlx, mlx_ptr);
+        					mlx_destroy(mlx);
+        					exit(1);
+    					}
 
-C
-void inicializar_cubo3d(void) {
-    // Cargar librería Minilibx
-    void *mlx = mlx_init();
-    if (!mlx) {
-        fprintf(stderr, "Error al inicializar Minilibx\n");
-        exit(1);
-    }
+				    // Leer archivo .cub
+   					leer_archivo_cub("mapa.cub");
 
-    // Crear ventana
-    void *mlx_ptr = mlx_create_window(mlx, ANCHO_PANTALLA, ALTO_PANTALLA, "cub3D");
-    if (!mlx_ptr) {
-        fprintf(stderr, "Error al crear la ventana\n");
-        mlx_destroy(mlx);
-        exit(1);
-    }
+				    // Cargar texturas
+    				cargar_texturas();
 
-    // Crear buffer de imagen
-    unsigned int *buffer = mlx_get_data_addr(mlx_ptr, &ancho_buffer, &alto_buffer, &bits_per_pixel);
-    if (!buffer) {
-        fprintf(stderr, "Error al crear el buffer de imagen\n");
-        mlx_destroy_window(mlx, mlx_ptr);
-        mlx_destroy(mlx);
-        exit(1);
-    }
+				    // Inicializar variables del jugador
+    				jugador.x = POSICION_INICIAL_X;
+    				jugador.y = POSICION_INICIAL_Y;
+    				jugador.angulo = DIRECCION_INICIAL;
+    				jugador.velocidad = VELOCIDAD_JUGADOR;
+    			}
+	-Explicación del código:
+		{
+			Se carga la librería Minilibx utilizando la función mlx_init(). Si la carga falla, se muestra un mensaje de error y se termina el programa.
+			Se crea la ventana del juego utilizando la función mlx_create_window(). 
+			Se especifican el ancho y alto de la ventana, y el título de la misma.
+			Si la creación de la ventana falla, se muestra un mensaje de error y se liberan los recursos utilizados.
 
-    // Leer archivo .cub
-    leer_archivo_cub("mapa.cub");
+			Se obtiene el puntero al buffer de imagen de la ventana utilizando la función mlx_get_data_addr(). 
+			Se almacenan las dimensiones del buffer en las variables ancho_buffer y alto_buffer,
+				y el número de bits por píxel en la variable bits_per_pixel. 
+			Si la obtención del buffer falla, se muestra un mensaje de error y se liberan los recursos utilizados.
+			Se llama a la función leer_archivo_cub() para leer la información del mapa, las texturas y los colores desde el archivo .cub.
+			Se llama a la función cargar_texturas() para cargar las texturas de pared desde las rutas especificadas en el archivo .cub.
+			Se inicializan las variables del jugador con su posición inicial, dirección y velocidad.
+			Se inicializan los enemigos (si se implementan) utilizando sus propias funciones específicas.
+		}
 
-    // Cargar texturas
-    cargar_texturas();
-
-    // Inicializar variables del jugador
-    jugador.x = POSICION_INICIAL_X;
-    jugador.y = POSICION_INICIAL_Y;
-    jugador.angulo = DIRECCION_INICIAL;
-    jugador.velocidad = VELOCIDAD_JUGADOR;
-
-    // Inicializar enemigos (si se implementan)
-
-}
-Usa el código con precaución.
-content_copy
-Explicación del código:
-
-Se carga la librería Minilibx utilizando la función mlx_init(). Si la carga falla, se muestra un mensaje de error y se termina el programa.
-Se crea la ventana del juego utilizando la función mlx_create_window(). Se especifican el ancho y alto de la ventana, y el título de la misma. Si la creación de la ventana falla, se muestra un mensaje de error y se liberan los recursos utilizados.
-Se obtiene el puntero al buffer de imagen de la ventana utilizando la función mlx_get_data_addr(). Se almacenan las dimensiones del buffer en las variables ancho_buffer y alto_buffer, y el número de bits por píxel en la variable bits_per_pixel. Si la obtención del buffer falla, se muestra un mensaje de error y se liberan los recursos utilizados.
-Se llama a la función leer_archivo_cub() para leer la información del mapa, las texturas y los colores desde el archivo .cub.
-Se llama a la función cargar_texturas() para cargar las texturas de pared desde las rutas especificadas en el archivo .cub.
-Se inicializan las variables del jugador con su posición inicial, dirección y velocidad.
-Se inicializan los enemigos (si se implementan) utilizando sus propias funciones específicas.
 3.2 leer_archivo_cub():
 
-Explicación:
+	-Explicación:
+		{
+			Esta función se encarga de leer la información del archivo .cub, incluyendo el mapa,
+				las rutas a las texturas y los colores del piso y techo.
+		}
 
-Esta función se encarga de leer la información del archivo .cub, incluyendo el mapa, las rutas a las texturas y los colores del piso y techo.
+	-Código:
 
-Código:
+		{
+			void leer_archivo_cub(const char *nombre_archivo) 
+			{
+				FILE *archivo = fopen(nombre_archivo, "r");
+					if (!archivo)
+					{
+						fprintf(stderr, "Error al abrir el archivo %s\n", nombre_archivo);
+						exit(1);
+					}
 
-C
-void leer_archivo_cub(const char *nombre_archivo) {
-    FILE *archivo = fopen(nombre_archivo, "r");
-    if (!archivo) {
-        fprintf(stderr, "Error al abrir el archivo %s\n", nombre_archivo);
-        exit(1);
-    }
+				// Leer primera línea (ancho y alto del mapa)
+				char linea[MAX_LINEA];
+				fgets(linea, MAX_LINEA, archivo);
+				sscanf(linea, "%d %d", &ancho_mapa, &alto_mapa);
 
-    // Leer primera línea (ancho y alto del mapa)
-    char linea[MAX_LINEA];
-    fgets(linea, MAX_LINEA, archivo);
-    sscanf(linea, "%d %d", &ancho_mapa, &alto_mapa);
+				// Reservar memoria para el mapa
+				mapa = malloc(alto_mapa * sizeof(char *));
+				if (!mapa)
+					{
+						fprintf(stderr, "Error al reservar memoria para el mapa\n");
+						fclose(archivo);
+						exit(1);
+					}
 
-    // Reservar memoria para el mapa
-    mapa = malloc(alto_mapa * sizeof(char *));
-    if (!mapa) {
-        fprintf(stderr, "Error al reservar memoria para el mapa\n");
-        fclose(archivo);
-        exit(1);
-    }
+				for (int i = 0; i < alto_mapa; i++)
+					{
+						mapa[i] = malloc(ancho_mapa + 1);
+						if (!mapa[i]) {
+						for (int j = 0; j < i; j++)
+							{
+								free(mapa[j]);
+							}
+						free(mapa);
+						fclose(archivo);
+						exit(1);
+        			}
+				}
+			}
 
-for (int i = 0; i < alto_mapa; i++) {
-        mapa[i] = malloc(ancho_mapa + 1);
-        if (!mapa[i]) {
-            for (int j = 0; j < i; j++) {
-                free(mapa[j]);
-            }
-            free(mapa);
-            fclose(archivo);
-            exit(1);
-        }
-    }
+			// Leer líneas restantes (mapa, texturas, colores)
+			char *ptr_linea = linea;
+			for (int i = 0; i < alto_mapa; i++)
+			{
+				fgets(linea, MAX_LINEA, archivo);
+				for (int j = 0; j < ancho_mapa; j++)
+					{
+						mapa[i][j] = *ptr_linea;
+						ptr_linea++;
+					}
+				*ptr_linea = '\0'; // Terminar la cadena
+				ptr_linea = linea; // Reiniciar puntero para la siguiente línea
+			}
 
-    // Leer líneas restantes (mapa, texturas, colores)
-    char *ptr_linea = linea;
-    for (int i = 0; i < alto_mapa; i++) {
-        fgets(linea, MAX_LINEA, archivo);
-        for (int j = 0; j < ancho_mapa; j++) {
-            mapa[i][j] = *ptr_linea;
-            ptr_linea++;
-        }
-        *ptr_linea = '\0'; // Terminar la cadena
-        ptr_linea = linea; // Reiniciar puntero para la siguiente línea
-    }
+			// Leer rutas a las texturas
+			fgets(linea, MAX_LINEA, archivo);
+			sscanf(linea, "%s %s %s %s", &ruta_textura_no, &ruta_textura_so, &ruta_textura_we, &ruta_textura_ea);
 
-    // Leer rutas a las texturas
-    fgets(linea, MAX_LINEA, archivo);
-    sscanf(linea, "%s %s %s %s", &ruta_textura_no, &ruta_textura_so, &ruta_textura_we, &ruta_textura_ea);
+			// Leer colores del piso y techo
+			fgets(linea, MAX_LINEA, archivo);
+			sscanf(linea, "%x %x", &color_piso, &color_techo);
 
-    // Leer colores del piso y techo
-    fgets(linea, MAX_LINEA, archivo);
-    sscanf(linea, "%x %x", &color_piso, &color_techo);
+			fclose(archivo);
+		}
 
-    fclose(archivo);
-}
-Usa el código con precaución.
-content_copy
-Explicación del código:
+	-Explicación del código:
+		{
+			Se abre el archivo .cub en modo lectura utilizando la función fopen(). 
+					Si la apertura falla, se muestra un mensaje de error y se termina el programa.
+			Se lee la primera línea del archivo, que contiene el ancho y alto del mapa. 
+					Se utilizan las funciones fgets() y sscanf() para leer la línea
+					y almacenar los valores en las variables ancho_mapa y alto_mapa.
+			Se reserva memoria para el mapa utilizando la función malloc(). 
+					Se crea un arreglo bidimensional de caracteres mapa con el ancho y alto del mapa. 
+					Si la reserva de memoria falla, se muestra un mensaje de error, se liberan los recursos utilizados y se termina el programa.
+			Se recorren las líneas restantes del archivo para leer el contenido del mapa, 
+				las rutas a las texturas y los colores del piso y techo. 
+			Se utilizan las funciones fgets() y sscanf() para leer cada línea y almacenar los datos en las variables correspondientes.
+			Se cierra el archivo utilizando la función fclose().
+		}
 
-Se abre el archivo .cub en modo lectura utilizando la función fopen(). Si la apertura falla, se muestra un mensaje de error y se termina el programa.
-Se lee la primera línea del archivo, que contiene el ancho y alto del mapa. Se utilizan las funciones fgets() y sscanf() para leer la línea y almacenar los valores en las variables ancho_mapa y alto_mapa.
-Se reserva memoria para el mapa utilizando la función malloc(). Se crea un arreglo bidimensional de caracteres mapa con el ancho y alto del mapa. Si la reserva de memoria falla, se muestra un mensaje de error, se liberan los recursos utilizados y se termina el programa.
-Se recorren las líneas restantes del archivo para leer el contenido del mapa, las rutas a las texturas y los colores del piso y techo. Se utilizan las funciones fgets() y sscanf() para leer cada línea y almacenar los datos en las variables correspondientes.
-Se cierra el archivo utilizando la función fclose().
 3.3 cargar_texturas():
 
-Explicación:
+	-Explicación:
+		{
+			Esta función se encarga de cargar las texturas de pared desde las rutas especificadas en el archivo .cub.
+		}
+	
+	-Código:
+		{
+			void cargar_texturas(void)
+				{
+    				textura_no = mlx_ImageLoad(mlx, ruta_textura_no, &ancho_textura_no, &alto_textura_no);
+    				if (!textura_no)
+					{
+        					fprintf(stderr, "Error al cargar la textura NO: %s\n", ruta_textura_no);
+       						exit(1);
+					}
 
-Esta función se encarga de cargar las texturas de pared desde las rutas especificadas en el archivo .cub.
+    				textura_so = mlx_ImageLoad(mlx, ruta_textura_so, &ancho_textura_so, &alto_textura_so);
+					if (!textura_so)
+						{
+							fprintf(stderr, "Error al cargar la textura SO: %s\n", ruta_textura_so);
+							exit(1);
+						}
 
-Código:
+					textura_we = mlx_ImageLoad(mlx, ruta_textura_we, &ancho_textura_we, &alto_textura_we);
+					if (!textura_we) 
+						{
+							fprintf(stderr, "Error al cargar la textura WE: %s\n", ruta_textura_we);
+							exit(1);
+						}
 
-C
-void cargar_texturas(void) {
-    textura_no = mlx_ImageLoad(mlx, ruta_textura_no, &ancho_textura_no, &alto_textura_no);
-    if (!textura_no) {
-        fprintf(stderr, "Error al cargar la textura NO: %s\n", ruta_textura_no);
-        exit(1);
-    }
+					textura_ea = mlx_ImageLoad(mlx, ruta_textura_ea, &ancho_textura_ea, &alto_textura_ea);
+					if (!textura_ea)
+					{
+						fprintf(stderr, "Error al cargar la textura EA: %s\n", ruta_textura_ea);
+						exit(1);
+					}
+				}
+		}
 
-    textura_so = mlx_ImageLoad(mlx, ruta_textura_so, &ancho_textura_so, &alto_textura_so);
-    if (!textura_so) {
-        fprintf(stderr, "Error al cargar la textura SO: %s\n", ruta_textura_so);
-        exit(1);
-    }
-
-    textura_we = mlx_ImageLoad(mlx, ruta_textura_we, &ancho_textura_we, &alto_textura_we);
-    if (!textura_we) {
-        fprintf(stderr, "Error al cargar la textura WE: %s\n", ruta_textura_we);
-        exit(1);
-    }
-
-    textura_ea = mlx_ImageLoad(mlx, ruta_textura_ea, &ancho_textura_ea, &alto_textura_ea);
-    if (!textura_ea) {
-        fprintf(stderr, "Error al cargar la textura EA: %s\n", ruta_textura_ea);
-        exit(1);
-    }
-}
-Usa el código con precaución.
-content_copy
-Explicación del código:
-
-Se carga cada textura de pared utilizando la función mlx_ImageLoad(). Se pasan como parámetros la ruta a la imagen, las variables donde se almacenarán el ancho y alto de la imagen cargada, y un puntero a la imagen
-
-3.3 cargar_texturas() (continuación):
-
-Si la carga de una textura falla, se muestra un mensaje de error con la ruta de la textura y se termina el programa.
+	-Explicación del código:
+		{
+			Se carga cada textura de pared utilizando la función mlx_ImageLoad().
+			Se pasan como parámetros la ruta a la imagen, las variables donde se almacenarán el ancho y alto de la imagen cargada, y un puntero a la imagen
+			Si la carga de una textura falla, se muestra un mensaje de error con la ruta de la textura y se termina el programa.
+		}
+		
 3.4 ciclo_principal():
 
 Explicación:
@@ -236,8 +285,7 @@ void ciclo_principal(void) {
         mlx_SwapBuffers(mlx, mlx_ptr);
     }
 }
-Usa el código con precaución.
-content_copy
+
 Explicación del código:
 
 El bucle while se ejecuta indefinidamente hasta que el usuario decide salir del juego.
@@ -251,7 +299,6 @@ Esta función lee los eventos del teclado y el ratón para actualizar la direcci
 
 Código:
 
-C
 void procesar_entrada(void) {
     mlx_events *e;
     int estado = mlx_get_events(mlx, mlx_ptr, &e);
@@ -282,8 +329,7 @@ void procesar_entrada(void) {
         }
     }
 }
-Usa el código con precaución.
-content_copy
+
 Explicación del código:
 
 Se obtiene el estado de los eventos del teclado y el ratón utilizando la función mlx_get_events(). Si hay eventos pendientes, se almacena la información en la estructura e.
@@ -297,15 +343,14 @@ Esta función se encarga de actualizar la lógica del juego, incluyendo la detec
 
 Código:
 
-C
+
 void logica_del_juego(void) {
     // Detectar colisiones
     // Mover enemigos
     // Actualizar otros elementos del juego
     // (Implementar lógica específica del juego)
 }
-Usa el código con precaución.
-content_copy
+
 Explicación del código:
 
 Esta función debe ser implementada por el programador en base a las reglas y mecánicas específicas del juego que se esté desarrollando.
@@ -334,13 +379,10 @@ void renderizar(void) {
 
 
 	3.7 renderizar() (continuación):
-
-C
     // Mostrar imagen en la ventana
     mlx_PutImageToWindow(mlx, mlx_ptr, 0, 0, buffer);
 }
-Usa el código con precaución.
-content_copy
+
 Explicación del código:
 
 Se llama a la función llenar_buffer() para limpiar el buffer de imagen con el color del piso.
@@ -400,8 +442,7 @@ void raycast_y(int x) {
     // Dibujar columna de la pared
     dibujar_pared_columna(x, pared_cercana);
 }
-Usa el código con precaución.
-content_copy
+
 Explicación del código:
 
 Se inicializa una variable pared_cercana para almacenar la información de la pared más cercana encontrada hasta el momento.
@@ -451,8 +492,7 @@ void dibujar_pared_columna(int x, pared pared_cercana) {
         buffer[indice_pixel] = color_textura;
     }
 }
-Usa el código con precaución.
-content_copy
+
 Explicación del código:
 
 Se calcula la altura de la columna de la pared en base a la distancia a la pared.

@@ -96,7 +96,7 @@ void inicializar_cubo3d(void) {
         exit(1);
     }
 
-    // Crear buffer de imagen
+    // Crear buffer de imagen 
     unsigned int *buffer = mlx_get_data_addr(mlx_ptr, &ancho_buffer, &alto_buffer, &bits_per_pixel);
     if (!buffer) {
         fprintf(stderr, "Error al crear el buffer de imagen\n");

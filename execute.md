@@ -10,6 +10,41 @@ cub3d.h: Contendrá las declaraciones de las funciones y estructuras específica
 2. Definición de funciones y estructuras:
 
 Definir las estructuras necesarias:
+
+codigo:
+
+#ifndef CUB3D_H
+#define CUB3D_H
+
+typedef struct {
+    double x;        // Posición horizontal del jugador en el mapa (en celdas)
+    double y;        // Posición vertical del jugador en el mapa (en celdas)
+    double angulo;   // Dirección del jugador en grados (0º hacia el norte, 90º hacia el este, 180º hacia el sur, 270º hacia el oeste)
+    double velocidad; // Velocidad de movimiento del jugador (en celdas por segundo)
+} Jugador;
+
+typedef struct {
+    int ancho;       // Ancho del mapa en celdas
+    int alto;        // Alto del mapa en celdas
+    char **celdas;   // Matriz bidimensional de caracteres que representan el contenido del mapa
+} Mapa;
+
+typedef struct {
+    int tipo_textura; // Identificador de la textura de la pared (NO, SO, WE, EA)
+    double distancia; // Distancia desde el punto de origen al punto de intersección con la pared
+} Pared;
+
+void inicializar_cubo3d(void);
+void ciclo_principal(void);
+void procesar_entrada(void);
+void logica_del_juego(void);
+void renderizar(void);
+void raycast(int x);
+void dibujar_pared_columna(int x, Pared pared_cercana);
+void cargar_texturas(void);
+void leer_archivo_cub(const char *nombre_archivo);
+#endif
+
 jugador: Almacena la posición, dirección y estado del jugador.
 x: Posición horizontal del jugador en el mapa (en celdas).
 y: Posición vertical del jugador en el mapa (en celdas).
@@ -45,7 +80,6 @@ Esta función se encarga de la inicialización completa del juego, incluyendo la
 
 Código:
 
-C
 void inicializar_cubo3d(void) {
     // Cargar librería Minilibx
     void *mlx = mlx_init();
@@ -86,8 +120,7 @@ void inicializar_cubo3d(void) {
     // Inicializar enemigos (si se implementan)
 
 }
-Usa el código con precaución.
-content_copy
+
 Explicación del código:
 
 Se carga la librería Minilibx utilizando la función mlx_init(). Si la carga falla, se muestra un mensaje de error y se termina el programa.
@@ -160,8 +193,7 @@ for (int i = 0; i < alto_mapa; i++) {
 
     fclose(archivo);
 }
-Usa el código con precaución.
-content_copy
+
 Explicación del código:
 
 Se abre el archivo .cub en modo lectura utilizando la función fopen(). Si la apertura falla, se muestra un mensaje de error y se termina el programa.
@@ -202,9 +234,6 @@ void cargar_texturas(void) {
         fprintf(stderr, "Error al cargar la textura EA: %s\n", ruta_textura_ea);
         exit(1);
     }
-}
-Usa el código con precaución.
-content_copy
 Explicación del código:
 
 Se carga cada textura de pared utilizando la función mlx_ImageLoad(). Se pasan como parámetros la ruta a la imagen, las variables donde se almacenarán el ancho y alto de la imagen cargada, y un puntero a la imagen
@@ -236,8 +265,7 @@ void ciclo_principal(void) {
         mlx_SwapBuffers(mlx, mlx_ptr);
     }
 }
-Usa el código con precaución.
-content_copy
+
 Explicación del código:
 
 El bucle while se ejecuta indefinidamente hasta que el usuario decide salir del juego.
@@ -274,16 +302,10 @@ void procesar_entrada(void) {
                     break;
             }
         }
-
-        // Leer eventos del ratón
-        if (e->button_press == 1 && e->button == 1) {
-            // Disparar
-            // (Implementar lógica de disparo)
         }
     }
 }
-Usa el código con precaución.
-content_copy
+
 Explicación del código:
 
 Se obtiene el estado de los eventos del teclado y el ratón utilizando la función mlx_get_events(). Si hay eventos pendientes, se almacena la información en la estructura e.
@@ -299,13 +321,9 @@ Código:
 
 C
 void logica_del_juego(void) {
-    // Detectar colisiones
-    // Mover enemigos
-    // Actualizar otros elementos del juego
-    // (Implementar lógica específica del juego)
+
 }
-Usa el código con precaución.
-content_copy
+
 Explicación del código:
 
 Esta función debe ser implementada por el programador en base a las reglas y mecánicas específicas del juego que se esté desarrollando.
@@ -315,11 +333,10 @@ Se debe implementar la lógica para mover los enemigos, cambiar su estado o comp
 
 Explicación:
 
-Esta función se encarga de renderizar la imagen del juego, incluyendo el dibujo de las paredes, sprites y otros elementos.
+Esta función se encarga de renderizar la imagen del juego, incluyendo el dibujo de las paredes y otros elementos.
 
 Código:
 
-C
 void renderizar(void) {
     // Limpiar buffer de imagen
     llenar_buffer(color_piso);
@@ -328,19 +345,10 @@ void renderizar(void) {
     for (int x = 0; x < ANCHO_PANTALLA; x++) {
         raycast_y(x);
     }
-
-    // Dibujar sprites
-    // (Implementar si se desea)
-
-
-	3.7 renderizar() (continuación):
-
-C
     // Mostrar imagen en la ventana
     mlx_PutImageToWindow(mlx, mlx_ptr, 0, 0, buffer);
 }
-Usa el código con precaución.
-content_copy
+
 Explicación del código:
 
 Se llama a la función llenar_buffer() para limpiar el buffer de imagen con el color del piso.
@@ -400,8 +408,6 @@ void raycast_y(int x) {
     // Dibujar columna de la pared
     dibujar_pared_columna(x, pared_cercana);
 }
-Usa el código con precaución.
-content_copy
 Explicación del código:
 
 Se inicializa una variable pared_cercana para almacenar la información de la pared más cercana encontrada hasta el momento.
@@ -421,10 +427,9 @@ Esta función dibuja una columna de la pared en el buffer de imagen en base a
 
 3.9 dibujar_pared_columna() (continuación):
 
-C
 void dibujar_pared_columna(int x, pared pared_cercana) {
     // Calcular altura de la columna
-    int altura_columna = (ALTO_PANTALLA / pared_cercana.distancia) * CELDA_TAMANIO;
+    int altcolumna = (ALTO_PANTALLA / pared_cercana.distancia) * CELDA_TAMANIO;
     if (altura_columna > ALTO_PANTALLA) {
         altura_columna = ALTO_PANTALLA;
     }
@@ -451,8 +456,7 @@ void dibujar_pared_columna(int x, pared pared_cercana) {
         buffer[indice_pixel] = color_textura;
     }
 }
-Usa el código con precaución.
-content_copy
+
 Explicación del código:
 
 Se calcula la altura de la columna de la pared en base a la distancia a la pared.
@@ -462,15 +466,13 @@ Para cada píxel, se calcula el índice del píxel en el buffer de imagen.
 Se calculan las coordenadas de la textura en base a la altura relativa del píxel en la columna.
 Se obtiene el color de la textura en base a las coordenadas de la textura.
 Se establece el color del píxel en el buffer de imagen con el color de la textura.
-4. Funciones adicionales:
+
+1. Funciones adicionales:
 
 get_tipo_textura(x, y, angulo_rayo): Esta función determina el tipo de textura de la pared en una celda específica en base a la posición del jugador y el ángulo del rayo.
-dibujar_sprite(sprite, x, y, ancho, alto): Esta función dibuja un sprite en el buffer de imagen en una posición y tamaño específicos, teniendo en cuenta la perspectiva 3D.
-(Opcional) mapeo_textura(textura, x, y, ancho, alto): Esta función aplica la técnica de mapeo de texturas para ajustar la textura de la pared a la columna que se está dibujando.
+dibujar_sprite(sprite, x, y, ancho, alto): Esta función dibuja un sprite en el buffer de imagen en una posición y tamaño específicos, teniendo en cuenta la perspectiva 3D
+mapeo_textura(textura, x, y, ancho, alto): Esta función aplica la técnica de mapeo de texturas para ajustar la textura de la pared a la columna que se está dibujando.
+
 5. Implementación final:
 
 Con la implementación de todas las funciones descritas, se obtiene un juego cub3D básico funcional que permite al jugador moverse por un mapa, visualizar las paredes y sprites, y detectar colisiones.
-
-
-
-[ij]
